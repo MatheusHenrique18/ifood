@@ -2,6 +2,8 @@ package com.github.MatheusHenrique18.ifood.cadastro;
 
 import static io.restassured.RestAssured.given;
 
+import java.util.Optional;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.approvaltests.JsonApprovals;
@@ -53,6 +55,41 @@ public class RestauranteResourceTest {
     	
     	Assert.assertEquals(dto.nome, restaurante.nome);
     	
+    }
+    
+    @Test
+    @DataSet("restaurantes-cenario-1.yml")
+    public void testIncluirRestaurante() {
+    	Restaurante dto = new Restaurante();
+    	dto.nome = "novo restaurante 123321";
+    	
+    	given()
+    	.contentType(ContentType.JSON)
+    	.body(dto)
+    	.when().post("/restaurantes")
+    	.then()
+    	.statusCode(Status.CREATED.getStatusCode());
+    	
+    	Restaurante restaurante = Restaurante.find("nome", dto.nome).singleResult();
+    	
+    	Assert.assertEquals(dto.nome, restaurante.nome);
+    }
+    
+    @Test
+    @DataSet("restaurantes-cenario-1.yml")
+    public void testExcluirRestaurante() {
+    	Long parameterValue = 234L;
+    	
+    	given()
+    	.contentType(ContentType.JSON)
+    	.with().pathParam("id", parameterValue)
+    	.when().delete("/restaurantes/{id}")
+    	.then()
+    	.statusCode(Status.NO_CONTENT.getStatusCode());
+    	
+    	Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(parameterValue);
+    	
+    	Assert.assertTrue(restauranteOp.isEmpty());
     }
 
 }
