@@ -1,0 +1,22 @@
+[
+  {
+    "descricao": "teste prato 1",
+    "idPrato": 12345,
+    "nome": "teste chocolate",
+    "preco": 10.00,
+    "restaurante": {
+      "idRestaurante": 123,
+      "proprietario": "ID do keycloack"
+    }
+  },
+  {
+    "descricao": "teste prato 2",
+    "idPrato": 6789,
+    "nome": "teste ovo",
+    "preco": 12.00,
+    "restaurante": {
+      "idRestaurante": 123,
+      "proprietario": "ID do keycloack"
+    }
+  }
+]

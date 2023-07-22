@@ -2,7 +2,10 @@ package com.github.MatheusHenrique18.ifood.cadastro.resource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +22,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import com.github.MatheusHenrique18.ifood.cadastro.dto.AlterarPratoDTO;
+import com.github.MatheusHenrique18.ifood.cadastro.dto.CadastrarPratoDTO;
+import com.github.MatheusHenrique18.ifood.cadastro.dto.PratoDTO;
+import com.github.MatheusHenrique18.ifood.cadastro.dto.PratoMapper;
 import com.github.MatheusHenrique18.ifood.cadastro.entity.Prato;
 import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
 
@@ -28,21 +35,26 @@ import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PratoResource {
 
+	@Inject
+	PratoMapper pratoMapper;
+	
 	@GET
-	public List<Prato> buscar(@PathParam("idRestaurante") Long idRestaurante) {
-		return Prato.list("idRestaurante", idRestaurante);
+	public List<PratoDTO> buscar(@PathParam("idRestaurante") Long idRestaurante) {
+		Stream<Prato> pratos = Prato.find("idRestaurante", idRestaurante).stream();
+		return pratos.map(p -> pratoMapper.toPratoDTO(p)).collect(Collectors.toList());
 	}
 
 	@POST
 	@Transactional
-	public Response cadastrar(@PathParam("idRestaurante") Long idRestaurante, Prato dto) {
+	public Response cadastrar(@PathParam("idRestaurante") Long idRestaurante, CadastrarPratoDTO dto) {
 		Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
 		if (restauranteOp.isEmpty()) {
 			throw new NotFoundException();
 		}
-
-		dto.restaurante = restauranteOp.get();
-		dto.persist();
+		
+		Prato prato = pratoMapper.toPrato(dto);
+		prato.restaurante = restauranteOp.get();
+		prato.persist();
 
 		return Response.status(Status.CREATED).build();
 	}
@@ -50,7 +62,7 @@ public class PratoResource {
 	@PUT
 	@Path("{idPrato}")
 	@Transactional
-	public void alterar(@PathParam("idRestaurante") Long idRestaurante, @PathParam("idPrato") Long idPrato, Prato dto) {
+	public void alterar(@PathParam("idRestaurante") Long idRestaurante, @PathParam("idPrato") Long idPrato, AlterarPratoDTO dto) {
 		Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
 		if (restauranteOp.isEmpty()) {
 			throw new NotFoundException();
@@ -62,7 +74,7 @@ public class PratoResource {
 		}
 
 		Prato prato = pratoOp.get();
-		prato.nome = dto.nome;
+		pratoMapper.toPrato(dto, prato);
 		prato.persist();
 	}
 
