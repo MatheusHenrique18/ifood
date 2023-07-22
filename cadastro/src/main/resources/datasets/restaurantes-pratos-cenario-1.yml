@@ -1,4 +1,10 @@
 restaurante:
+  - idRestaurante: 567
+    nome: "Novo Restaurante"
+    proprietario: "ID do keycloack"
+  - idRestaurante: 890
+    nome: "Novo Restaurante 2"
+    proprietario: "ID do keycloack 2"
   - idRestaurante: 123
     nome: "Novo Restaurante"
     proprietario: "ID do keycloack"
@@ -11,19 +17,19 @@ prato:
     descricao: teste prato 1
     nome: teste chocolate
     preco: 10
-    idRestaurante: 123
+    idRestaurante: 567
   - idPrato: 6789
     descricao: teste prato 2
     nome: teste ovo
     preco: 12
-    idRestaurante: 123
+    idRestaurante: 567
   - idPrato: 91011
     descricao: teste prato 3
     nome: teste arroz
     preco: 15
-    idRestaurante: 234
+    idRestaurante: 890
   - idPrato: 121314
     descricao: teste prato 4
     nome: teste feijao
     preco: 18
-    idRestaurante: 234
+    idRestaurante: 890

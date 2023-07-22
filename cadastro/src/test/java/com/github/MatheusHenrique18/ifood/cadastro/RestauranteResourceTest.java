@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.github.MatheusHenrique18.ifood.cadastro.dto.AlterarRestauranteDTO;
 import com.github.MatheusHenrique18.ifood.cadastro.dto.CadastrarRestauranteDTO;
 import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
+import com.github.MatheusHenrique18.ifood.cadastro.utils.Constants;
 import com.github.database.rider.cdi.api.DBRider;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
@@ -29,7 +30,7 @@ import io.restassured.http.ContentType;
 public class RestauranteResourceTest {
 
     @Test
-    @DataSet("restaurantes-cenario-1.yml")
+    @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
     public void testBuscarRestaurantes() {
         String resultado = given()
 		          .when().get("/restaurantes")
@@ -40,28 +41,28 @@ public class RestauranteResourceTest {
     }
     
     @Test
-    @DataSet("restaurantes-cenario-1.yml")
+    @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
     public void testAlterarRestaurante() {
     	AlterarRestauranteDTO dto = new AlterarRestauranteDTO();
     	dto.nomeFantasia = "novo nome";
-    	Long parameterValue = 123L;
+    	Long idRestaurante = 123L;
     	
     	given()
     	.contentType(ContentType.JSON)
-    	.with().pathParam("id", parameterValue)
+    	.with().pathParam("id", idRestaurante)
     	.body(dto)
     	.when().put("/restaurantes/{id}")
     	.then()
     	.statusCode(Status.NO_CONTENT.getStatusCode());
     	
-    	Restaurante restaurante = Restaurante.findById(parameterValue);
+    	Restaurante restaurante = Restaurante.findById(idRestaurante);
     	
     	Assert.assertEquals(dto.nomeFantasia, restaurante.nome);
     	
     }
     
     @Test
-    @DataSet("restaurantes-cenario-1.yml")
+    @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
     public void testIncluirRestaurante() {
     	CadastrarRestauranteDTO dto = new CadastrarRestauranteDTO();
     	dto.nomeFantasia = "novo restaurante 123321";
@@ -80,18 +81,18 @@ public class RestauranteResourceTest {
     }
     
     @Test
-    @DataSet("restaurantes-cenario-1.yml")
+    @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
     public void testExcluirRestaurante() {
-    	Long parameterValue = 234L;
+    	Long idRestaurante = 234L;
     	
     	given()
     	.contentType(ContentType.JSON)
-    	.with().pathParam("id", parameterValue)
+    	.with().pathParam("id", idRestaurante)
     	.when().delete("/restaurantes/{id}")
     	.then()
     	.statusCode(Status.NO_CONTENT.getStatusCode());
     	
-    	Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(parameterValue);
+    	Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
     	
     	Assert.assertTrue(restauranteOp.isEmpty());
     }

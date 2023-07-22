@@ -1,5 +1,15 @@
 [
   {
+    "idRestaurante": 567,
+    "nomeFantasia": "Novo Restaurante",
+    "proprietario": "ID do keycloack"
+  },
+  {
+    "idRestaurante": 890,
+    "nomeFantasia": "Novo Restaurante 2",
+    "proprietario": "ID do keycloack 2"
+  },
+  {
     "idRestaurante": 123,
     "nomeFantasia": "Novo Restaurante",
     "proprietario": "ID do keycloack"

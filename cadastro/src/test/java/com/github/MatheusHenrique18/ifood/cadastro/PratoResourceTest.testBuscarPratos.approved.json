@@ -5,7 +5,7 @@
     "nome": "teste chocolate",
     "preco": 10.00,
     "restaurante": {
-      "idRestaurante": 123,
+      "idRestaurante": 567,
       "proprietario": "ID do keycloack"
     }
   },
@@ -15,7 +15,7 @@
     "nome": "teste ovo",
     "preco": 12.00,
     "restaurante": {
-      "idRestaurante": 123,
+      "idRestaurante": 567,
       "proprietario": "ID do keycloack"
     }
   }
