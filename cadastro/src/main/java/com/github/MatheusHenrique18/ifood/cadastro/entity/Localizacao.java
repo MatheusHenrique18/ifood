@@ -1,4 +1,4 @@
-package com.github.MatheusHenrique18.ifood.cadastro;
+package com.github.MatheusHenrique18.ifood.cadastro.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

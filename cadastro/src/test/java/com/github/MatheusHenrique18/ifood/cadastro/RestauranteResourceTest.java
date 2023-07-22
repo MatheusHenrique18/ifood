@@ -10,6 +10,7 @@ import org.approvaltests.JsonApprovals;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
 import com.github.database.rider.cdi.api.DBRider;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
@@ -25,6 +26,8 @@ import io.restassured.http.ContentType;
 @QuarkusTestResource(CadastroTestLifeCycleManager.class)
 public class RestauranteResourceTest {
 
+	//TODO: refatorar para utilziar os dtos
+	
     @Test
     @DataSet("restaurantes-cenario-1.yml")
     public void testBuscarRestaurantes() {

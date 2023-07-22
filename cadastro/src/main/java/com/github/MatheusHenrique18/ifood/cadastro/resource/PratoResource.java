@@ -1,4 +1,4 @@
-package com.github.MatheusHenrique18.ifood.cadastro;
+package com.github.MatheusHenrique18.ifood.cadastro.resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import com.github.MatheusHenrique18.ifood.cadastro.entity.Prato;
+import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
 
 @Path("/restaurantes/{idRestaurante}/pratos")
 @Tag(name = "Prato")
