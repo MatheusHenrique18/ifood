@@ -21,6 +21,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.github.MatheusHenrique18.ifood.cadastro.dto.AlterarRestauranteDTO;
@@ -28,6 +31,7 @@ import com.github.MatheusHenrique18.ifood.cadastro.dto.CadastrarRestauranteDTO;
 import com.github.MatheusHenrique18.ifood.cadastro.dto.RestauranteDTO;
 import com.github.MatheusHenrique18.ifood.cadastro.dto.RestauranteMapper;
 import com.github.MatheusHenrique18.ifood.cadastro.entity.Restaurante;
+import com.github.MatheusHenrique18.ifood.cadastro.exception.ConstraintViolationResponse;
 
 @Path("/restaurantes")
 @Tag(name = "Restaurante")
@@ -46,6 +50,8 @@ public class RestauranteResource {
 	
 	@POST
     @Transactional
+    @APIResponse(responseCode = "201", description = "Caso o restaurante seja cadastrado com sucesso.")
+    @APIResponse(responseCode = "400", content = @Content(schema = @Schema(allOf = ConstraintViolationResponse.class)))
     public Response cadastrar(@Valid CadastrarRestauranteDTO dto) {
 		Restaurante restaurante = restauranteMapper.toRestaurante(dto);
 		restaurante.persist();
