@@ -9,5 +9,11 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
-#    volumes:
-#      - ./data:/var/lib/postgresql/data
+  keycloak_ifood:
+    container_name: keycloak_ifood
+    image: jboss/keycloak:9.0.2
+    environment: 
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8180:8080"

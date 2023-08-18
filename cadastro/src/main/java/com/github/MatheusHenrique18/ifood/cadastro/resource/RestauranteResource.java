@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.Response.Status;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.github.MatheusHenrique18.ifood.cadastro.dto.AlterarRestauranteDTO;
@@ -37,6 +39,8 @@ import com.github.MatheusHenrique18.ifood.cadastro.exception.ConstraintViolation
 @Tag(name = "Restaurante")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed("proprietario")
+@SecurityRequirement(name = "ifood-oauth", scopes = {})
 public class RestauranteResource {
 
 	@Inject
