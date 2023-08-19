@@ -1,7 +1,5 @@
 package com.github.MatheusHenrique18.ifood.cadastro;
 
-import static io.restassured.RestAssured.given;
-
 import java.util.Optional;
 
 import javax.ws.rs.core.Response.Status;
@@ -21,13 +19,12 @@ import com.github.database.rider.core.api.dataset.DataSet;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
 
 @DBRider
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
 @QuarkusTest
 @QuarkusTestResource(CadastroTestLifeCycleManager.class)
-public class RestauranteResourceTest {
+public class RestauranteResourceTest extends TestTokenConfig{
 
     @Test
     @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
@@ -48,7 +45,6 @@ public class RestauranteResourceTest {
     	Long idRestaurante = 123L;
     	
     	given()
-    	.contentType(ContentType.JSON)
     	.with().pathParam("id", idRestaurante)
     	.body(dto)
     	.when().put("/restaurantes/{id}")
@@ -69,7 +65,6 @@ public class RestauranteResourceTest {
     	dto.proprietario = "teste";
     	
     	given()
-    	.contentType(ContentType.JSON)
     	.body(dto)
     	.when().post("/restaurantes")
     	.then()
@@ -86,7 +81,6 @@ public class RestauranteResourceTest {
     	Long idRestaurante = 234L;
     	
     	given()
-    	.contentType(ContentType.JSON)
     	.with().pathParam("id", idRestaurante)
     	.when().delete("/restaurantes/{id}")
     	.then()

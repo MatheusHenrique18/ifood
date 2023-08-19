@@ -1,7 +1,5 @@
 package com.github.MatheusHenrique18.ifood.cadastro;
 
-import static io.restassured.RestAssured.given;
-
 import java.util.Optional;
 
 import javax.ws.rs.core.Response.Status;
@@ -20,20 +18,18 @@ import com.github.database.rider.core.api.dataset.DataSet;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
 
 @DBRider
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
 @QuarkusTest
 @QuarkusTestResource(CadastroTestLifeCycleManager.class)
-public class PratoResourceTest {
+public class PratoResourceTest extends TestTokenConfig{
 
 	@Test
     @DataSet(Constants.DATASET_RESTAURANTES_PRATOS)
     public void testBuscarPratos() {
 		Long idRestaurante = 567L;
         String resultado = given()
-					.contentType(ContentType.JSON)
 					.with().pathParam("idRestaurante", idRestaurante)
 					.when().get("/restaurantes/{idRestaurante}/pratos")
 					.then()
@@ -51,7 +47,6 @@ public class PratoResourceTest {
 		dto.nome = "teste alteracao";
 		
         given()
-			.contentType(ContentType.JSON)
 			.with().pathParam("idRestaurante", idRestaurante)
 			.with().pathParam("idPrato", idPrato)
 			.body(dto)
@@ -72,7 +67,6 @@ public class PratoResourceTest {
 		dto.nome = "teste inclusao 123456";
 		
         given()
-			.contentType(ContentType.JSON)
 			.with().pathParam("idRestaurante", idRestaurante)
 			.body(dto)
 			.when().post("/restaurantes/{idRestaurante}/pratos")
@@ -91,7 +85,6 @@ public class PratoResourceTest {
 		Long idPrato = 12345L;
 		
         given()
-			.contentType(ContentType.JSON)
 			.with().pathParam("idRestaurante", idRestaurante)
 			.with().pathParam("idPrato", idPrato)
 			.when().delete("/restaurantes/{idRestaurante}/pratos/{idPrato}")
