@@ -26,12 +26,15 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["localhost:9090"]
+#      - targets: ["localhost:9090"]
+      - targets: ["host.docker.internal:9090"]
 
   - job_name: "ifood-cadastro"
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
+    metrics_path: "q/metrics"
     scrape_interval: 5s # Set the scrape interval to every 5 seconds. Default is every 1 minute.
     static_configs:
-      - targets: ["localhost:8080"]
+#      - targets: ["localhost:8080"]
+      - targets: ["host.docker.internal:8080"]
