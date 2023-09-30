@@ -52,3 +52,13 @@ services:
 #    network_mode: "host"
     ports:
       - "3000:3000"
+
+  artemis_ifood:
+    container_name: artemis_ifood
+    image: vromero/activemq-artemis:2.11.0
+#    network_mode: "host"
+    ports:
+      - "8161:8161"
+    environment: 
+      ARTEMIS_USERNAME: admin
+      ARTEMIS_PASSWORD: admin
