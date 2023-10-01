@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -30,6 +32,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 
 import com.github.MatheusHenrique18.ifood.cadastro.dto.AlterarRestauranteDTO;
 import com.github.MatheusHenrique18.ifood.cadastro.dto.CadastrarRestauranteDTO;
@@ -49,6 +53,10 @@ public class RestauranteResource {
 	@Inject
 	RestauranteMapper restauranteMapper;
 	
+	@Inject
+	@Channel("restaurantes")
+	Emitter<String> emitter;
+	
 	@GET
 	@Counted(name = "Quantidade de buscas Restaurante")
 	@SimplyTimed(name = "Tempo simples de busca")
@@ -65,6 +73,11 @@ public class RestauranteResource {
     public Response cadastrar(@Valid CadastrarRestauranteDTO dto) {
 		Restaurante restaurante = restauranteMapper.toRestaurante(dto);
 		restaurante.persist();
+		
+		Jsonb create = JsonbBuilder.create();
+		String json = create.toJson(restaurante);
+		emitter.send(json);
+		
     	return Response.status(Status.CREATED).build();
     }
     
