@@ -72,7 +72,7 @@ public class RestauranteResource {
     @APIResponse(responseCode = "400", content = @Content(schema = @Schema(allOf = ConstraintViolationResponse.class)))
     public Response cadastrar(@Valid CadastrarRestauranteDTO dto) {
 		Restaurante restaurante = restauranteMapper.toRestaurante(dto);
-		restaurante.persist();
+		restaurante.persistAndFlush();
 		
 		Jsonb create = JsonbBuilder.create();
 		String json = create.toJson(restaurante);
