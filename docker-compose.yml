@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+
   postgres_cadastro:
     container_name: postgres_cadastro_ifood
     image: postgres:12.2
@@ -9,6 +10,7 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+
   postgres_marketplace:
     container_name: postgres_marketplace_ifood
     image: postgres:12.2
@@ -18,6 +20,7 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5433:5432"
+
   keycloak_ifood:
     container_name: keycloak_ifood
     image: jboss/keycloak:9.0.2
@@ -26,6 +29,7 @@ services:
       KEYCLOAK_PASSWORD: admin
     ports:
       - "8180:8080"
+
   jaeger_ifood:
     container_name: jaeger_ifood
     image: jaegertracing/all-in-one:1.17
@@ -71,3 +75,31 @@ services:
       MONGO_INITDB_DATABASE: pedido
     ports:
       - "27017:27017"
+
+  zookeeper:
+    container_name: zookeeper_container
+    image: debezium/zookeeper:1.1
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+
+  kafka:
+    container_name: kafka_container
+    image: debezium/kafka:1.1
+    environment: 
+      - ZOOKEEPER_CONNECT=zookeeper:2181
+    links: 
+      - zookeeper
+    ports:
+     - 9092:9092
+
+  kafdrop:
+    container_name: kafdrop_container
+    image: obsidiandynamics/kafdrop:3.24.0
+    environment: 
+      KAFKA_BROKERCONNECT: kafka:9092
+    depends_on: 
+      - kafka
+    ports:
+     - 9000:9000
